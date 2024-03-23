@@ -50,7 +50,7 @@ type Props = {
 };
 
 const FeatureCard: React.FC<Props> = ({ book }) => {
-  const [ref, visible] = useInView({ once: true });
+  const [ref, visible] = useInView({ once: true, rootMargin: '500px' });
   const imageUrl = useImage({ height: 96, imageId: book.image.id, visible: visible, width: 96 });
   const authorImageUrl = useImage({ height: 32, imageId: book.author.image.id, visible: visible, width: 32 });
 
