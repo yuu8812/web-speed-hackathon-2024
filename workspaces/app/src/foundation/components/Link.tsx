@@ -1,12 +1,13 @@
+import { Link as RRLink } from 'react-router-dom';
 type Props = {
   children: React.ReactNode;
-  to?: string;
-} & JSX.IntrinsicElements['a'];
+  href?: string;
+} & React.RefAttributes<HTMLAnchorElement>;
 
-export const Link: React.FC<Props> = ({ children, to, ...rest }) => {
+export const Link: React.FC<Props> = ({ children, href, ...rest }) => {
   return (
-    <a href={to} {...rest}>
+    <RRLink to={href ?? ''} {...rest}>
       {children}
-    </a>
+    </RRLink>
   );
 };

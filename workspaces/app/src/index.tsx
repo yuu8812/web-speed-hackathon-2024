@@ -8,7 +8,7 @@ import { Router } from './routes';
 
 export const ClientApp: React.FC = () => {
   return (
-    <Suspense fallback={<></>}>
+    <Suspense fallback={<>loading</>}>
       <GlobalStyle />
       <Dialog />
       <Router />
