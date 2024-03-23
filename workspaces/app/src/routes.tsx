@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import { styled } from 'styled-components';
 
@@ -27,8 +27,22 @@ const _BackToTopButton = styled(Link)`
 export const Router: React.FC = () => {
   return (
     <Routes>
-      <Route element={<CommonLayout />} path={'/'}>
-        <Route element={<TopPage />} path={''} />
+      <Route
+        element={
+          <Suspense fallback={<></>}>
+            <CommonLayout />
+          </Suspense>
+        }
+        path={'/'}
+      >
+        <Route
+          element={
+            <Suspense fallback={<></>}>
+              <TopPage />
+            </Suspense>
+          }
+          path={''}
+        />
       </Route>
       <Route
         element={
@@ -45,10 +59,38 @@ export const Router: React.FC = () => {
         }
         path={'/'}
       >
-        <Route element={<BookDetailPage />} path={'books/:bookId'} />
-        <Route element={<EpisodeDetailPage />} path={'books/:bookId/episodes/:episodeId'} />
-        <Route element={<AuthorDetailPage />} path={'authors/:authorId'} />
-        <Route element={<SearchPage />} path={'search'} />
+        <Route
+          element={
+            <Suspense fallback={<></>}>
+              <BookDetailPage />
+            </Suspense>
+          }
+          path={'books/:bookId'}
+        />
+        <Route
+          element={
+            <Suspense fallback={<></>}>
+              <EpisodeDetailPage />
+            </Suspense>
+          }
+          path={'books/:bookId/episodes/:episodeId'}
+        />
+        <Route
+          element={
+            <Suspense fallback={<></>}>
+              <AuthorDetailPage />
+            </Suspense>
+          }
+          path={'authors/:authorId'}
+        />
+        <Route
+          element={
+            <Suspense fallback={<></>}>
+              <SearchPage />
+            </Suspense>
+          }
+          path={'search'}
+        />
       </Route>
     </Routes>
   );
