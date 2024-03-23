@@ -2,13 +2,14 @@ import { useInView } from '@react-spring/web';
 import { Suspense } from 'react';
 import { styled } from 'styled-components';
 
+import type { GetReleaseResponse } from '@wsh-2024/schema/src/api/releases/GetReleaseResponse';
+
 import { Flex } from '../../../foundation/components/Flex';
 import { Image } from '../../../foundation/components/Image';
 import { Link } from '../../../foundation/components/Link';
 import { Text } from '../../../foundation/components/Text';
 import { useImage } from '../../../foundation/hooks/useImage';
 import { Color, Radius, Space, Typography } from '../../../foundation/styles/variables';
-import { useBook } from '../hooks/useBook';
 
 const _Wrapper = styled(Link)`
   display: flex;
@@ -16,7 +17,10 @@ const _Wrapper = styled(Link)`
   border-radius: ${Radius.SMALL};
   background-color: ${Color.MONO_A};
   max-width: 192px;
+  min-width: 192px;
   border: 1px solid ${Color.MONO_30};
+  height: fit-content;
+  height: 244px;
 `;
 
 const _ImgWrapper = styled.div`
@@ -34,41 +38,41 @@ const _AvatarWrapper = styled.div`
 `;
 
 type Props = {
-  bookId: string;
+  book: GetReleaseResponse['books'][number];
 };
 
-const BookCard: React.FC<Props> = ({ bookId }) => {
-  const { data: book } = useBook({ params: { bookId } });
-  const [ref] = useInView({ once: true });
+const BookCard: React.FC<Props> = ({ book }) => {
+  const [ref, visible] = useInView({ once: true });
 
-  const imageUrl = useImage({ height: 128, imageId: book.image.id, visible: true, width: 192 });
-  const authorImageUrl = useImage({ height: 32, imageId: book.author.image.id, visible: true, width: 32 });
+  const imageUrl = useImage({ height: 128, imageId: book.image.id, visible: visible, width: 192 });
+  const authorImageUrl = useImage({ height: 32, imageId: book.author.image.id, visible: visible, width: 32 });
 
   return (
-    <_Wrapper ref={ref} href={`/books/${bookId}`}>
-      {imageUrl != null && (
-        <_ImgWrapper>
-          <Image alt={book.image.alt} height={128} objectFit="cover" src={imageUrl} width={192} />
-        </_ImgWrapper>
-      )}
-
-      <Flex align="stretch" direction="column" flexGrow={1} gap={Space * 1} justify="space-between" p={Space * 2}>
-        <Text color={Color.MONO_100} typography={Typography.NORMAL14} weight="bold">
-          {book.name}
-        </Text>
-
-        <Flex align="center" gap={Space * 1} justify="flex-end">
-          {authorImageUrl != null && (
-            <_AvatarWrapper>
-              <Image alt={book.author.name} height={32} objectFit="cover" src={authorImageUrl} width={32} />
-            </_AvatarWrapper>
-          )}
-          <Text color={Color.MONO_100} typography={Typography.NORMAL12}>
-            {book.author.name}
+    <div ref={ref}>
+      <_Wrapper ref={ref} href={`/books/${book.id}`}>
+        {imageUrl != null && (
+          <_ImgWrapper>
+            <Image alt={book.image.alt} height={128} objectFit="cover" src={imageUrl} width={192} />
+          </_ImgWrapper>
+        )}
+        <Flex align="stretch" direction="column" flexGrow={1} gap={Space * 1} justify="space-between" p={Space * 2}>
+          <Text color={Color.MONO_100} typography={Typography.NORMAL14} weight="bold">
+            {book.name}
           </Text>
+
+          <Flex align="center" gap={Space * 1} justify="flex-end">
+            {authorImageUrl != null && (
+              <_AvatarWrapper>
+                <Image alt={book.author.name} height={32} objectFit="cover" src={authorImageUrl} width={32} />
+              </_AvatarWrapper>
+            )}
+            <Text color={Color.MONO_100} typography={Typography.NORMAL12}>
+              {book.author.name}
+            </Text>
+          </Flex>
         </Flex>
-      </Flex>
-    </_Wrapper>
+      </_Wrapper>
+    </div>
   );
 };
 

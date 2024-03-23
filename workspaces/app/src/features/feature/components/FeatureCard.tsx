@@ -50,19 +50,19 @@ type Props = {
 };
 
 const FeatureCard: React.FC<Props> = ({ book }) => {
-  const [ref] = useInView({ once: true });
-  const imageUrl = useImage({ height: 96, imageId: book.image.id, visible: true, width: 96 });
-  const authorImageUrl = useImage({ height: 32, imageId: book.author.image.id, visible: true, width: 32 });
+  const [ref, visible] = useInView({ once: true });
+  const imageUrl = useImage({ height: 96, imageId: book.image.id, visible: visible, width: 96 });
+  const authorImageUrl = useImage({ height: 32, imageId: book.author.image.id, visible: visible, width: 32 });
 
   return (
-    <_Wrapper ref={ref} href={`/books/${book.id}`}>
+    <_Wrapper href={`/books/${book.id}`}>
       {imageUrl != null && (
         <_ImgWrapper>
           <Image alt={book.image.alt} height={96} objectFit="cover" src={imageUrl} width={96} />
         </_ImgWrapper>
       )}
 
-      <_ContentWrapper>
+      <_ContentWrapper ref={ref}>
         <Text color={Color.MONO_100} typography={Typography.NORMAL16} weight="bold">
           {book.name}
         </Text>
