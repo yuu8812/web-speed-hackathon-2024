@@ -69,7 +69,7 @@ async function createHTML({
   return content;
 }
 
-app.get('*', async (c) => {
+app.get('/', async (c) => {
   const injectData = await createInjectDataStr();
   const sheet = new ServerStyleSheet();
 
@@ -85,7 +85,7 @@ app.get('*', async (c) => {
     const styleTags = sheet.getStyleTags();
     const html = await createHTML({ body, injectData, styleTags });
 
-    return c.html(html);
+    return c.html(html, { headers: { 'Content-Type': 'text/html; charset=utf-8' } });
   } catch (cause) {
     throw new HTTPException(500, { cause, message: 'SSR error.' });
   } finally {

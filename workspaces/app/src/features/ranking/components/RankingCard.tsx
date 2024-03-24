@@ -44,7 +44,7 @@ type Props = {
 };
 
 const RankingCard: React.FC<Props> = ({ book }) => {
-  const [ref, inView] = useInView({ once: true });
+  const [ref, inView] = useInView({ once: true, rootMargin: '500px' });
 
   const imageUrl = useImage({ height: 96, imageId: book.image.id, visible: inView, width: 96 });
   const authorImageUrl = useImage({ height: 32, imageId: book.author.image.id, visible: inView, width: 32 });

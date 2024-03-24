@@ -162,7 +162,9 @@ const ComicViewerCore: React.FC<Props> = ({ episodeId }) => {
     };
 
     let scrollEndTimer = -1;
-    abortController.signal.addEventListener('abort', () => window.clearTimeout(scrollEndTimer), { once: true });
+    abortController.signal.addEventListener('abort', () => window.clearTimeout(scrollEndTimer), {
+      once: true,
+    });
 
     const handleScrollEnd = (ev: Pick<Event, 'currentTarget'>) => {
       const scrollView = ev.currentTarget as HTMLDivElement;
@@ -200,7 +202,9 @@ const ComicViewerCore: React.FC<Props> = ({ episodeId }) => {
 
     const resizeObserver = new ResizeObserver(handleResize);
     scrollView && resizeObserver.observe(scrollView);
-    abortController.signal.addEventListener('abort', () => resizeObserver.disconnect(), { once: true });
+    abortController.signal.addEventListener('abort', () => resizeObserver.disconnect(), {
+      once: true,
+    });
 
     return () => {
       abortController.abort();

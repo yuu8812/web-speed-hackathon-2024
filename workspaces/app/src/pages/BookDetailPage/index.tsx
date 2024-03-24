@@ -1,4 +1,3 @@
-import { useInView } from '@react-spring/web';
 import { useAtom } from 'jotai/react';
 import { Suspense, useCallback } from 'react';
 import { useParams } from 'react-router-dom';
@@ -55,10 +54,8 @@ const BookDetailPage: React.FC = () => {
 
   const [isFavorite, toggleFavorite] = useAtom(FavoriteBookAtomFamily(bookId));
 
-  const [ref, inView] = useInView({ once: true });
-
-  const bookImageUrl = useImage({ height: 256, imageId: book.image.id, visible: inView, width: 192 });
-  const auhtorImageUrl = useImage({ height: 32, imageId: book.author.image.id, visible: inView, width: 32 });
+  const bookImageUrl = useImage({ height: 256, imageId: book.image.id, width: 192 });
+  const auhtorImageUrl = useImage({ height: 32, imageId: book.author.image.id, width: 32 });
 
   const handleFavClick = useCallback(() => {
     toggleFavorite();
@@ -68,9 +65,9 @@ const BookDetailPage: React.FC = () => {
 
   return (
     <Box height="100%" position="relative" px={Space * 2}>
-      <_HeadingWrapper ref={ref} aria-label="作品情報">
+      <_HeadingWrapper aria-label="作品情報">
         {bookImageUrl != null && (
-          <Image alt={book.name} height={256} objectFit="cover" src={bookImageUrl} width={192} />
+          <Image alt={book.name} height={256} loading="lazy" objectFit="cover" src={bookImageUrl} width={192} />
         )}
         <Flex align="flex-start" direction="column" gap={Space * 1} justify="flex-end">
           <Box>
@@ -110,7 +107,7 @@ const BookDetailPage: React.FC = () => {
       <section aria-label="エピソード一覧">
         <Flex align="center" as="ul" direction="column" justify="center">
           {episodeList.map((episode) => (
-            <EpisodeListItem key={episode.id} bookId={bookId} episodeId={episode.id} />
+            <EpisodeListItem key={episode.id} bookId={bookId} episode={episode} />
           ))}
           {episodeList.length === 0 && (
             <>
