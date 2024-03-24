@@ -19,6 +19,7 @@ export default defineConfig(async (): Promise<Options[]> => {
   return [
     {
       bundle: true,
+      cjsInterop: true,
       clean: true,
       entry: {
         client: path.resolve(PACKAGE_DIR, './src/index.tsx'),
@@ -54,14 +55,15 @@ export default defineConfig(async (): Promise<Options[]> => {
         '.wasm': 'binary',
       },
       metafile: true,
-      minify: false,
+      minify: true,
+      noExternal: [/@wsh-2024\/.*/],
       outDir: OUTPUT_DIR,
       platform: 'browser',
       shims: true,
-      sourcemap: 'inline',
-      splitting: false,
+      sourcemap: false,
+      splitting: true,
       target: ['chrome58'],
-      treeshake: false,
+      treeshake: true,
     },
   ];
 });
